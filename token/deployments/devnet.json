@@ -1,0 +1,17 @@
+{
+  "cluster": "devnet",
+  "mint": "G4Eajes8xsJW3kebSHDKuMb3pdVXWRCn3eXHamRzJE9R",
+  "treasury": "6iuE5cmDZh7kssDmtgDkSJTzNum6wxtGh7f4TtRQB5cZ",
+  "decimals": 6,
+  "totalSupply": "1000000000",
+  "name": "Gator Coin",
+  "symbol": "GATOR",
+  "metadataUri": "https://raw.githubusercontent.com/glschaefer09-ux/haikus-for-codespaces/main/token/metadata/gator-coin.json",
+  "mintAuthorityRevoked": true,
+  "transactions": {
+    "createMetadata": "hLaTWx0Sk/SlEfcWUn17QpWKS3XTJTRlmqVgFbCiu3tuhaG5mbmesZdRRNtvo/PdSeXSgYFpiCritc6tHrtHCw==",
+    "revokeMintAuthority": "rkJisaSxVzjTB1xYkbHGrikDY3e123Daz7ZaUhDz5X9Y7wP7dfj5gyFgAyrcfMjYSjiyBh8ic4d1wgVHC8g5Vud"
+  },
+  "createdAt": "2026-07-04T10:48:34.036Z",
+  "updatedAt": "2026-07-04T10:57:27.522Z"
+}

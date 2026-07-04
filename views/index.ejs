@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Haikus for Mona</title>
+    <title>Gator Coin</title>
     <link href="/css/main.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Haikus for Mona">
-    <meta property="og:description" content="Some of the best haikus you'll ever read about our rescue dog June">
-    <meta property="og:image" content="/images/sunlight.jpg">
+    <meta property="og:title" content="Gator Coin">
+    <meta property="og:description" content="The community currency of Gator Clans">
   </head>
   <body>
-    <h1>Haikus for Mona</h1>
-    <div>
-      <% for(var i=0; i < haikus.length; i++) { %>
-        <img
-          class="mona-images"
-          src="images/<%= haikus[i].image %>" />
-        <div 
-          class="haiku-containers">
-          <p 
-            class="haikus"
-          ><%- haikus[i].text %></p>
-        </div>
+    <main>
+      <h1>Gator Coin</h1>
+      <p class="subtitle">Community currency of Gator Clans &mdash; cluster: <code><%= cluster %></code></p>
+
+      <% if (!deployed) { %>
+        <section class="card">
+          <p>No token has been created on <code><%= cluster %></code> yet.</p>
+          <p>Run <code>npm run token:create</code> to mint Gator Coin.</p>
+        </section>
+      <% } else if (error && !mintInfo) { %>
+        <section class="card error"><p><%= error %></p></section>
+      <% } else { %>
+        <section class="card">
+          <h2>Mint</h2>
+          <dl>
+            <dt>Address</dt>
+            <dd><a href="<%= mintInfo.explorerUrl %>" target="_blank" rel="noopener"><%= mintInfo.address %></a></dd>
+            <dt>Name / Symbol</dt>
+            <dd><%= metadata ? `${metadata.name} (${metadata.symbol})` : 'No on-chain metadata found' %></dd>
+            <dt>Decimals</dt>
+            <dd><%= mintInfo.decimals %></dd>
+            <dt>Total supply</dt>
+            <dd><%= mintInfo.supply %></dd>
+            <dt>Mint authority</dt>
+            <dd><%= mintInfo.mintAuthorityActive ? 'Active (supply can still change)' : 'Revoked (supply permanently fixed)' %></dd>
+          </dl>
+        </section>
+
+        <section class="card">
+          <h2>Check a balance</h2>
+          <form method="get" action="/">
+            <input type="text" name="address" placeholder="Wallet address" value="<%= queriedAddress || '' %>" />
+            <button type="submit">Look up</button>
+          </form>
+          <% if (error) { %>
+            <p class="error-text"><%= error %></p>
+          <% } else if (balance !== null) { %>
+            <p>Balance for <code><%= queriedAddress %></code>: <strong><%= balance %> GATOR</strong></p>
+          <% } %>
+        </section>
       <% } %>
-    </div>
+    </main>
+  </body>
 </html>

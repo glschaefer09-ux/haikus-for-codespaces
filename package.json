@@ -1,19 +1,35 @@
 {
-    "name": "app-service-hello-world",
-    "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.0.1",
+    "name": "gator-coin",
+    "description": "Gator Coin: a fixed-supply Solana SPL token for the Gator Clans community",
+    "version": "0.1.0",
     "private": true,
     "license": "MIT",
-    "author": "Microsoft",
     "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon"
+        "start": "tsx index.ts",
+        "dev": "tsx watch index.ts",
+        "token:create": "tsx token/scripts/create-token.ts",
+        "token:revoke-mint-authority": "tsx token/scripts/revoke-mint-authority.ts",
+        "token:info": "tsx token/scripts/mint-info.ts",
+        "token:balance": "tsx token/scripts/check-balance.ts",
+        "token:transfer": "tsx token/scripts/transfer.ts",
+        "token:airdrop": "tsx token/scripts/airdrop-sol.ts",
+        "token:new-wallet": "tsx token/scripts/new-test-wallet.ts"
     },
     "dependencies": {
+        "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
+        "@metaplex-foundation/umi": "^1.5.1",
+        "@metaplex-foundation/umi-bundle-defaults": "^1.5.1",
+        "@metaplex-foundation/umi-web3js-adapters": "^1.5.1",
+        "@solana/spl-token": "^0.4.14",
+        "@solana/web3.js": "^1.98.4",
+        "dotenv": "^17.4.2",
         "ejs": "^3.1.10",
         "express": "^4.22.1"
     },
     "devDependencies": {
-        "nodemon": "^2.0.19"
+        "@types/express": "^5.0.6",
+        "@types/node": "^26.1.0",
+        "tsx": "^4.23.0",
+        "typescript": "^6.0.3"
     }
 }
