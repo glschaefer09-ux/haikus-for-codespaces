@@ -1,7 +1,0 @@
-{
-  "instructions": [
-    "Follow the guidance in CLAUDE.md and CLAUDE_PROMPT_PACK.md for Unreal Engine work.",
-    "Prioritize small, compile-safe changes, Unreal naming conventions, and clear separation between C++ and Blueprint logic.",
-    "For this project, balance military FPS combat and survival gameplay by keeping systems modular and data-driven."
-  ]
-}
