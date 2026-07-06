@@ -35,3 +35,13 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# TypeScript build output
+dist
+
+# Environment variables (may contain RPC URLs/config secrets)
+.env
+
+# Solana keypairs -- devnet-only local keys, never commit private keys
+token/keys/*.json
+!token/keys/.gitkeep

@@ -1,0 +1,16 @@
+{
+  "name": "Gator Coin",
+  "symbol": "GATOR",
+  "description": "Gator Coin is the community currency of Gator Clans, a nonprofit gaming community, used for purchases in-game and across the Gator Clans Network. Fixed supply of 1,000,000,000 GATOR, minted once with mint authority permanently revoked.",
+  "image": "https://raw.githubusercontent.com/glschaefer09-ux/haikus-for-codespaces/main/token/metadata/gator-coin-logo.png",
+  "external_url": "https://github.com/glschaefer09-ux/haikus-for-codespaces",
+  "properties": {
+    "category": "fungible",
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/glschaefer09-ux/haikus-for-codespaces/main/token/metadata/gator-coin-logo.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "Haikus for Codespaces",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:0-18",
+    "postCreateCommand": "npm install",
+    "forwardPorts": [3000],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint"
+            ]
+        }
+    }
+}
