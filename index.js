@@ -1,14 +1,10 @@
-let express = require('express');
-let app = express();
-let ejs = require('ejs');
-const haikus = require('./haikus.json');
-const port = process.env.PORT || 3000;
+const { createApp } = require('./src/app');
 
-app.use(express.static('public'))
-app.set('view engine', 'ejs');
+const { app, config, logger } = createApp();
 
-app.get('/', (req, res) => {
-  res.render('index', {haikus: haikus});
+app.listen(config.app.port, () => {
+  logger.info('server.started', {
+    port: config.app.port,
+    env: config.app.env,
+  });
 });
-
-app.listen(port);
