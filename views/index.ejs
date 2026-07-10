@@ -1,26 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Haikus for Mona</title>
-    <link href="/css/main.css" rel="stylesheet" type="text/css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Haikus for Mona">
-    <meta property="og:description" content="Some of the best haikus you'll ever read about our rescue dog June">
-    <meta property="og:image" content="/images/sunlight.jpg">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link href="/css/main.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <h1>Haikus for Mona</h1>
-    <div>
-      <% for(var i=0; i < haikus.length; i++) { %>
-        <img
-          class="mona-images"
-          src="images/<%= haikus[i].image %>" />
-        <div 
-          class="haiku-containers">
-          <p 
-            class="haikus"
-          ><%- haikus[i].text %></p>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">CCDE Business Suite</p>
+        <h1>One Dashboard. Every Venture.</h1>
+        <p class="hero-copy">
+          Operational command center for POS revenue, token intelligence, integrations,
+          reporting relay, workspace documents, and internal delivery.
+        </p>
+      </div>
+      <% if (dashboard) { %>
+        <div class="status-panel status-<%= dashboard.summary.overallStatus %>">
+          <p class="status-label">Suite Status</p>
+          <strong><%= dashboard.summary.overallStatus.toUpperCase() %></strong>
+          <span><%= dashboard.summary.moduleCount %> modules · <%= dashboard.summary.warnings %> requiring attention</span>
+          <span>Generated <%= dashboard.summary.generatedAt %></span>
         </div>
       <% } %>
-    </div>
+    </header>
+
+    <% if (flash) { %>
+      <section class="flash flash-success"><%= flash %></section>
+    <% } %>
+
+    <% if (error) { %>
+      <section class="flash flash-error">
+        <strong><%= error.code %></strong>
+        <span><%= error.message %></span>
+      </section>
+    <% } %>
+
+    <% if (workflowResult) { %>
+      <section class="workflow-result">
+        <h2>Automation Result</h2>
+        <p>
+          Workflow <strong><%= workflowResult.workflow %></strong> completed and stored report
+          <strong><%= workflowResult.uploadedReport.name %></strong>.
+        </p>
+      </section>
+    <% } %>
+
+    <% if (dashboard) { %>
+      <main>
+        <section class="grid two-up">
+          <% dashboard.modules.forEach(function(module) { %>
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <p class="card-kicker"><%= module.id %></p>
+                  <h2><%= module.name %></h2>
+                </div>
+                <span class="pill pill-<%= module.status %>"><%= module.status %></span>
+              </div>
+              <p class="card-copy"><%= module.description %></p>
+
+              <% if (module.metrics) { %>
+                <dl class="metric-grid">
+                  <% Object.entries(module.metrics).forEach(function(entry) { %>
+                    <div>
+                      <dt><%= entry[0] %></dt>
+                      <dd><%= entry[1] %></dd>
+                    </div>
+                  <% }) %>
+                </dl>
+              <% } %>
+
+              <% if (module.providers) { %>
+                <ul class="list compact">
+                  <% module.providers.forEach(function(provider) { %>
+                    <li><strong><%= provider.provider %></strong> — <%= provider.transactions %> transactions · $<%= provider.revenue.toFixed(2) %></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+              <% if (module.contracts) { %>
+                <ul class="list compact">
+                  <% module.contracts.slice(0, 4).forEach(function(contract) { %>
+                    <li><strong><%= contract.name %></strong> — APY <%= contract.apy %>% · burn <%= contract.burnRate24h %>/24h</li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+              <% if (module.integrations) { %>
+                <ul class="list compact">
+                  <% module.integrations.forEach(function(integration) { %>
+                    <li><strong><%= integration.name %></strong> — <%= integration.status %> · lag <%= integration.lagMinutes %>m</li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+              <% if (module.reports) { %>
+                <ul class="list compact">
+                  <% module.reports.forEach(function(report) { %>
+                    <li><strong><%= report.type %></strong> — <%= report.status %> · <%= report.updatedAt %></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+              <% if (module.files) { %>
+                <ul class="list compact">
+                  <% module.files.forEach(function(file) { %>
+                    <li><strong><%= file.name %></strong> — <%= file.modifiedTime %></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+              <% if (module.projects) { %>
+                <ul class="list compact">
+                  <% module.projects.forEach(function(project) { %>
+                    <li><strong><%= project.title %></strong> — <%= project.status %> · <%= project.owner %></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+            </article>
+          <% }) %>
+        </section>
+
+        <section class="grid two-up actions">
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <p class="card-kicker">google-workspace-hub</p>
+                <h2>Upload Operational Report</h2>
+              </div>
+            </div>
+            <form method="post" action="/workspace/reports" class="form-stack">
+              <label>
+                <span>Report Name</span>
+                <input type="text" name="name" placeholder="ccde-ops-summary.txt" required />
+              </label>
+              <label>
+                <span>Report Content</span>
+                <textarea name="content" rows="8" placeholder="Paste operational summary content" required></textarea>
+              </label>
+              <button type="submit">Upload to DocumentStoragePort</button>
+            </form>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <p class="card-kicker">automation</p>
+                <h2>Run Daily Summary Workflow</h2>
+              </div>
+            </div>
+            <p class="card-copy">
+              Generates a suite-wide summary, uploads it to the active document storage provider,
+              and refreshes the dashboard with the latest execution details.
+            </p>
+            <form method="post" action="/automation/daily-summary" class="form-stack inline-form">
+              <button type="submit">Run workflow</button>
+            </form>
+          </article>
+        </section>
+      </main>
+    <% } %>
+  </body>
 </html>
