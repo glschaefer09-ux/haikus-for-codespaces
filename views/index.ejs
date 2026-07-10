@@ -74,8 +74,8 @@
 
               <% if (module.providers) { %>
                 <ul class="list compact">
-                  <% module.providers.forEach(function(provider) { %>
-                    <li><strong><%= provider.provider %></strong> — <%= provider.transactions %> transactions · $<%= provider.revenue.toFixed(2) %></li>
+                  <% module.providers.forEach(function(providerItem) { %>
+                    <li><strong><%= providerItem.provider %></strong> — <%= providerItem.transactions %> transactions · $<%= providerItem.revenue.toFixed(2) %></li>
                   <% }) %>
                 </ul>
               <% } %>

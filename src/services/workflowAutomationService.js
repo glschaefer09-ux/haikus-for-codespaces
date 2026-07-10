@@ -7,16 +7,17 @@ class WorkflowAutomationService {
 
   async runDailySummaryWorkflow() {
     const dashboard = await this.dashboardService.getDashboard();
+    const generatedAt = new Date(dashboard.summary.generatedAt).toISOString();
     const content = [
       'CCDE Business Suite Daily Summary',
-      `Generated At: ${dashboard.summary.generatedAt}`,
+      `Generated At: ${generatedAt}`,
       `Overall Status: ${dashboard.summary.overallStatus}`,
       `Warnings: ${dashboard.summary.warnings}`,
       '',
       ...dashboard.modules.map((module) => `${module.name}: ${module.status}`),
     ].join('\n');
 
-    const name = `ccde-daily-summary-${dashboard.summary.generatedAt.slice(0, 10)}.txt`;
+    const name = `ccde-daily-summary-${generatedAt.split('T')[0]}.txt`;
     const uploadedReport = await this.workspaceHubService.uploadReport({ name, content });
 
     this.logger.info('workflow.daily_summary.completed', {

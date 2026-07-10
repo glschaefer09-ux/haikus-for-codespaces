@@ -46,6 +46,8 @@ Supported environment variables:
 
 If no Google credentials are provided, the dashboard still works and clearly reports that it is using in-memory storage.
 
+If you set `GOOGLE_IMPERSONATED_USER`, the service account must already be configured for Google Workspace domain-wide delegation with the listed Drive scopes, or Drive API calls will fail.
+
 ## HTTP endpoints
 
 - `GET /` — server-rendered operational dashboard
@@ -58,3 +60,5 @@ If no Google credentials are provided, the dashboard still works and clearly rep
 ## Notes
 
 This repository originally started as a minimal Codespaces haiku demo. It has been expanded into a structured dashboard application while keeping the deployment model lightweight and compatible with the current Express runtime.
+
+For dependency hardening, `package.json` pins `picomatch` through `overrides` so the development watcher stack uses the patched release required to clear the current npm audit findings.

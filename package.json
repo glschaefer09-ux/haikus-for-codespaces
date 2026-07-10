@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.22.1",
+    "express": "^5.2.1",
     "googleapis": "^173.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^3.1.14"
+  },
+  "overrides": {
+    "picomatch": "^2.3.2"
   }
 }
