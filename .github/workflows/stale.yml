@@ -19,9 +19,6 @@ jobs:
 
     steps:
     - uses: actions/stale@v5
-      env:
-        # Scoped to this step to avoid wider secret exposure.
-        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: 'Stale issue message'
