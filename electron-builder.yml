@@ -1,0 +1,43 @@
+appId: com.crosspcai.app
+productName: Cross PC AI
+copyright: Copyright © 2026 Cross PC AI contributors
+
+directories:
+  buildResources: build
+  output: release
+
+files:
+  - out/**/*
+  - package.json
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: build/icon.ico
+  artifactName: '${productName}-Setup-${version}.${ext}'
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: Cross PC AI
+
+linux:
+  target:
+    - AppImage
+    - deb
+  icon: build/icons
+  category: Network
+  desktop:
+    entry:
+      Name: Cross PC AI
+      Comment: Sync AI chat sessions across your PCs
+      Categories: Network;Chat;Utility;
+  artifactName: '${productName}-${version}.${ext}'
+
+publish:
+  provider: github
+  releaseType: draft

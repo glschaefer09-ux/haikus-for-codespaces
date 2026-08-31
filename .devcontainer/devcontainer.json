@@ -1,0 +1,13 @@
+{
+    "name": "Cross PC AI",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:0-20",
+    "postCreateCommand": "npm install",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "bradlc.vscode-tailwindcss"
+            ]
+        }
+    }
+}

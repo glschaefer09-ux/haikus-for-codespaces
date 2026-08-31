@@ -1,19 +1,59 @@
 {
-    "name": "app-service-hello-world",
-    "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.0.1",
-    "private": true,
-    "license": "MIT",
-    "author": "Microsoft",
-    "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon"
-    },
-    "dependencies": {
-        "ejs": "^3.1.10",
-        "express": "^4.22.1"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.19"
-    }
+  "name": "cross-pc-ai",
+  "productName": "Cross PC AI",
+  "description": "Chat with Claude and pick up the conversation on any of your PCs.",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glschaefer09-ux/haikus-for-codespaces.git"
+  },
+  "type": "module",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "lint": "eslint .",
+    "icons:generate": "node scripts/generate-icons.mjs",
+    "build:win": "npm run build && npm run icons:generate && electron-builder --win",
+    "build:linux": "npm run build && npm run icons:generate && electron-builder --linux",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "@supabase/supabase-js": "^2.58.0",
+    "clsx": "^2.1.1",
+    "electron-store": "^11.0.2",
+    "lucide-react": "^0.545.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@eslint/js": "^9.38.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.21",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.20",
+    "electron-vite": "^4.0.1",
+    "eslint": "^9.38.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "png-to-ico": "^3.0.1",
+    "postcss": "^8.5.6",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2",
+    "vite": "^7.1.12"
+  }
 }
