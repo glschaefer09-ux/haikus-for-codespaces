@@ -1,0 +1,87 @@
+name: Summarize latest Cross PC AI commit
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: summarize-crosspcai
+  cancel-in-progress: true
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929' }}
+    steps:
+      - name: Fetch latest commit
+        id: commit
+        env:
+          CROSSPCAI_READ_TOKEN: ${{ secrets.CROSSPCAI_READ_TOKEN }}
+        run: |
+          test -n "$CROSSPCAI_READ_TOKEN" || {
+            echo "::error::Missing CROSSPCAI_READ_TOKEN repository secret"
+            exit 1
+          }
+
+          curl --fail-with-body --silent --show-error \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $CROSSPCAI_READ_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/glschaefer09-ux/crosspcai/commits?per_page=1&sha=main" \
+            --output latest-commit.json
+
+          jq -e 'type == "array" and length == 1' latest-commit.json >/dev/null
+
+      - name: Summarize commit with Claude
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          test -n "$ANTHROPIC_API_KEY" || {
+            echo "::error::Missing ANTHROPIC_API_KEY repository secret"
+            exit 1
+          }
+
+          commit="$(jq '.[0] | {
+            sha,
+            html_url,
+            author: .commit.author.name,
+            date: .commit.author.date,
+            message: .commit.message
+          }' latest-commit.json)"
+
+          jq -n \
+            --arg model "$ANTHROPIC_MODEL" \
+            --arg commit "$commit" \
+            '{
+              model: $model,
+              max_tokens: 500,
+              messages: [{
+                role: "user",
+                content: ("Summarize this GitHub commit in 3 concise bullets. Explain the likely intent, notable changes, and any risk visible from the metadata. Do not invent details that are not present.\n\n" + $commit)
+              }]
+            }' > request.json
+
+          curl --fail-with-body --silent --show-error \
+            --header "anthropic-version: 2023-06-01" \
+            --header "x-api-key: $ANTHROPIC_API_KEY" \
+            --header "content-type: application/json" \
+            --data-binary @request.json \
+            "https://api.anthropic.com/v1/messages" \
+            --output response.json
+
+          summary="$(jq -er '[.content[] | select(.type == "text") | .text] | join("\n")' response.json)"
+          url="$(jq -er '.[0].html_url' latest-commit.json)"
+          sha="$(jq -er '.[0].sha[0:7]' latest-commit.json)"
+
+          {
+            echo "## Latest Cross PC AI commit"
+            echo
+            echo "**Commit:** [$sha]($url)"
+            echo
+            echo "$summary"
+          } >> "$GITHUB_STEP_SUMMARY"
