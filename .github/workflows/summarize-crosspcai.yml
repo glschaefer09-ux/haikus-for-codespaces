@@ -17,9 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929' }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CROSSPCAI_READ_TOKEN: ${{ secrets.CROSSPCAI_READ_TOKEN }}
     steps:
       - name: Fetch latest commit
         id: commit
+        if: ${{ env.CROSSPCAI_READ_TOKEN != '' && env.ANTHROPIC_API_KEY != '' }}
         env:
           CROSSPCAI_READ_TOKEN: ${{ secrets.CROSSPCAI_READ_TOKEN }}
         run: |
@@ -38,6 +41,7 @@ jobs:
           jq -e 'type == "array" and length == 1' latest-commit.json >/dev/null
 
       - name: Summarize commit with Claude
+        if: ${{ env.CROSSPCAI_READ_TOKEN != '' && env.ANTHROPIC_API_KEY != '' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
