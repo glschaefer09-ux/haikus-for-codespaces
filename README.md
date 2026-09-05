@@ -85,3 +85,17 @@ yet" and the app works fully as a local, single-device client.
   has no display server, so the Electron GUI can't run inside it. Use it for
   `npm run typecheck` / `npm run lint`; run `npm run dev` on your desktop.
 - macOS builds and auto-update are not set up yet.
+
+## Hourly commit summaries
+
+The `summarize-crosspcai.yml` workflow summarizes the latest commit on the
+private `glschaefer09-ux/crosspcai` repository every hour. Configure these
+GitHub Actions repository secrets before running it:
+
+- `CROSSPCAI_READ_TOKEN`: a fine-grained PAT restricted to that repository with
+  **Contents: Read-only** permission.
+- `ANTHROPIC_API_KEY`: an API key created in the Anthropic Console.
+
+Optionally set the `ANTHROPIC_MODEL` repository variable to override the
+workflow's default Claude model. Never commit either credential to this
+repository or paste it into an issue, workflow file, or chat.
