@@ -36,3 +36,6 @@ Thumbs.db
 
 # TypeScript incremental build cache
 *.tsbuildinfo
+
+# Netlify CLI local state
+.netlify/
